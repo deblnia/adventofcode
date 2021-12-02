@@ -15,7 +15,7 @@ for(i in seq_along(df)){
 }
 larger_than_prev # 1688 
 
-# could also use diff() function and sum for positives 
+# could also use diff function and sum for positives 
 
 
 # part 2 
@@ -28,7 +28,7 @@ for(i in seq_along(df)){
   }
 }
 
-greater_than_prev_sliding
+greater_than_prev_sliding # 1728
 
 
 # again could use diff e.g. sum(diff(df, lag=3) > 0)
