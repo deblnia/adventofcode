@@ -52,4 +52,4 @@ for i in range(len(flat_list)):
 
 print(f'part 2: {h*a}')
 
-    
+# justin duke's code is much cleaner -- https://twitter.com/jmduke/status/1466280034084081665
