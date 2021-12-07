@@ -28,7 +28,7 @@ for day in range(256):
     newpop = [0] * 9
     for i in range(8):
         newpop[i] = pop[i+1]
-    newpop[6] += pop[0]
+    newpop[6] += pop[0]  # sends 0 -> 6 and 8
     newpop[8] = pop[0]
     pop = newpop
 
