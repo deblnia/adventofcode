@@ -16,6 +16,8 @@ print(cnt)
 
 # part 2 
 
+## debt to https://github.com/dionyziz/advent-of-code/blob/master/2021/8/8b.py here
+
 alphabet = 'abcdefg'
 
 led_patterns = [
