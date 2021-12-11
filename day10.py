@@ -1,8 +1,5 @@
 # this is a stack-based interview question 
 
-from os import PRIO_PGRP
-
-
 PAREN_PAIRS = {
     "(": ")",
     "[": "]",
