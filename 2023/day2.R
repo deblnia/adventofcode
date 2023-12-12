@@ -1,3 +1,6 @@
+# reference: 
+# https://twitter.com/drob/status/1731185230189367717
+
 library(tidyverse)
 
 df <- read_delim("inputs/day2.txt", "\n", col_names="games")
