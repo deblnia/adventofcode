@@ -21,4 +21,18 @@ sum = 0
 for pair in zip(l, r):
     a, b = pair 
     sum += abs(b - a)
-print(sum )
+print(sum) 
+
+
+# QUESTION 2 
+from collections import Counter 
+
+rc = Counter(r) 
+
+weighted_sum = 0 
+for i in l: 
+    if i in rc: 
+        weighted_sum += i * rc[i]
+    else: 
+        weighted_sum += 0 
+print(weighted_sum)
