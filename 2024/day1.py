@@ -1,3 +1,5 @@
+from collections import Counter 
+
 def read_input():
     with open('inputs/day1.txt', 'r') as file:
         return file.read().splitlines()
@@ -25,7 +27,6 @@ print(sum)
 
 
 # QUESTION 2 
-from collections import Counter 
 
 rc = Counter(r) 
 
