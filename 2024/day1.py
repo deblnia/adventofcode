@@ -16,7 +16,7 @@ for item in data:
 
 
 # QUESTION 1 
-l.sort()
+l.sort() # sort modifies in place 
 r.sort() 
 
 sum = 0 
