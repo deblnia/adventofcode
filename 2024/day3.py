@@ -9,14 +9,18 @@ data = read_input()
 # QUESTION 1 
 data_string = "\n".join(data)
 
-pattern = r"mul\((\d+),\s*(\d+)\)"
-matches = re.findall(pattern, data_string)
+matches = re.findall(r"mul\((\d+),\s*(\d+)\)|(do\(\))|(don't\(\))", data_string)
 
 sum = 0
-for i in matches: 
-    num1, num2 = i 
-    num1 = int(num1)
-    num2 = int(num2) 
-    product = num1 * num2 
-    sum += product
-print(f"p1: {sum}")
+sum2 = 0
+enabled = False
+for a, b, do, dont in matches:
+    if do or dont:
+        enabled = bool(do)
+    else:
+        x = int(a) * int(b)
+        sum += x
+        sum2 += x * enabled
+
+print('Part 1:', sum)
+print('Part 2:', sum2)
