@@ -1,11 +1,12 @@
 import re
+
 def read_input():
     with open('inputs/day3.txt', 'r') as file:
         return file.read().splitlines()
 
 data = read_input()
 
-# Join the list into a single string
+# QUESTION 1 
 data_string = "\n".join(data)
 
 pattern = r"mul\((\d+),\s*(\d+)\)"
