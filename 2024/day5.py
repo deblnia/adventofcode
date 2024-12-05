@@ -35,8 +35,8 @@ result = sum(middle)
 
 print(f"p1: {result}")
 
+# fuck a topological sort honestly 
 def order_update(update, rules):
-    # Build adjacency list and in-degree count for pages in the update
     adjacency_list = defaultdict(list)
     in_degree = defaultdict(int)
     
@@ -45,9 +45,8 @@ def order_update(update, rules):
             if start in update and end in update:
                 adjacency_list[start].append(end)
                 in_degree[end] += 1
-                in_degree[start]  # Ensure start is in the dict
+                in_degree[start] 
     
-    # Initialize the queue with nodes having zero in-degree
     queue = deque([node for node in update if in_degree[node] == 0])
     ordered = []
     
@@ -61,7 +60,6 @@ def order_update(update, rules):
     
     return ordered
 
-# Identify and correct invalid updates
 invalid_updates = []
 corrected_updates = []
 
