@@ -1,20 +1,25 @@
 with open("inputs/day6.txt", "r") as file: 
     GRID = file.read().splitlines()
 
+ROWS = len(GRID)
+COLS = len(GRID[0])
+
+def find_guard(grid): 
+    rows = len(grid)
+    cols = len(grid[0])
+
+    for row in range(rows): 
+        for col in range(cols): 
+            if grid[row][col] == "^":
+                return (row, col)
+
 # heavy heavy assist from https://github.com/salt-die/Advent-of-Code/blob/main/2024/day_06.py
-START = next(
-    (y, x) for y, line in enumerate(GRID) for x, char in enumerate(line) if char == "^"
-)
-H = len(GRID)
-W = len(GRID[0])
-
-
 def patrol(oy=-1, ox=-1):
     seen = set()
-    y, x = START
+    y, x = find_guard(GRID)
     dy, dx = -1, 0
     while True:
-        if not (0 <= y < H and 0 <= x < W):
+        if not (0 <= y < ROWS and 0 <= x < COLS):
             return len(seen) if oy == -1 else False
         if GRID[y][x] == "#" or (y == oy and x == ox):
             y -= dy
@@ -36,7 +41,12 @@ def part_one():
 
 
 def part_two():
-    return sum(patrol(y, x) for y in range(H) for x in range(W) if GRID[y][x] == ".")
+    sum = 0 
+    for row in range(ROWS): 
+        for col in range(COLS): 
+            if GRID[row][col] == ".":
+                sum += patrol(row, col)
+    return sum
 
 
 p1 = part_one()
