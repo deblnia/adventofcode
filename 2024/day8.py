@@ -46,3 +46,28 @@ for frequency, positions in antennas.items():
                 antinodes.add((row_antinode2, col_antinode2))
 
 print(f"P1: {len(antinodes)}")
+
+antinodes_p2 = set()
+
+for frequency, antenna_positions in antennas.items():
+    num_antennas = len(antenna_positions)
+    for i in range(num_antennas - 1):
+        start_x, start_y = antenna_positions[i]
+        for j in range(i + 1, num_antennas):
+            end_x, end_y = antenna_positions[j]
+
+            direction_x, direction_y = start_x - end_x, start_y - end_y
+
+            current_x, current_y = start_x, start_y
+            while 0 <= current_x < COLS and 0 <= current_y < ROWS:
+                antinodes_p2.add((current_y, current_x))
+                current_x += direction_x
+                current_y += direction_y
+
+            current_x, current_y = end_x, end_y
+            while 0 <= current_x < COLS and 0 <= current_y < ROWS:
+                antinodes_p2.add((current_y, current_x))
+                current_x -= direction_x
+                current_y -= direction_y
+
+print(f"P2: {len(antinodes_p2)}")
