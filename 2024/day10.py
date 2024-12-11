@@ -33,10 +33,34 @@ def part_one(grid):
 p1 = part_one(grid)
 print(f"Part 1: {p1}")
 
+def part_two(grid):
+    count = 0
+    
+    def dfs(y, x, i, visited):
+        if x < 0 or y < 0 or x >= len(grid[0]) or y >= len(grid):
+            return 0
+        if grid[y][x] != i or (y, x) in visited:
+            return 0
+        if i == 9:
+            return 1
+        
+        visited.add((y, x))
+        
+        count = (dfs(y + 1, x, i + 1, visited) +
+                 dfs(y, x - 1, i + 1, visited) +
+                 dfs(y, x + 1, i + 1, visited) +
+                 dfs(y - 1, x, i + 1, visited))
+        
+        visited.remove((y, x))
+        
+        return count
+    
+    for j in range(len(grid)):
+        for i in range(len(grid[0])):
+            if grid[j][i] == 0:
+                count += dfs(j, i, 0, set())
+    
+    return count
 
-
-
-
-
-p2 = ""
+p2 = part_two(grid)
 print(f"Part 2: {p2}")
