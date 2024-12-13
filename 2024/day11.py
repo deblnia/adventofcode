@@ -40,6 +40,8 @@ print(f"part 2: {p2}")
 
 
 # RAMA'S WAY - WAY BETTER ACTUALLY UNDERSTANDS WHAT'S GOING ON 
+# RAMA: https://github.com/ramapriya
+
 # import math
 # from collections import Counter
 # def get_input(path):
