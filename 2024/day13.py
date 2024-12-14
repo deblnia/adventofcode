@@ -1,29 +1,26 @@
+import re
+
+# super helpful video: https://www.youtube.com/watch?v=aTeV8AVuyoY
 
 with open("inputs/day13.txt", "r") as f: 
-    data = f.read().split("\n")
-    D = []
-    machine = {}
-    for i in data:
-        if i.startswith('Button A:'):
-            coords = i.split('Button A: ')[1].split(', ')
-            machine['A'] = (
-                int(coords[0].split('X+')[1]), 
-                int(coords[1].split('Y+')[1])
-            )
-        elif i.startswith('Button B:'):
-            coords = i.split('Button B: ')[1].split(', ')
-            machine['B'] = (
-                int(coords[0].split('X+')[1]), 
-                int(coords[1].split('Y+')[1])
-            )
-        elif i.startswith('Prize:'):
-            coords = i.split('Prize: ')[1].split(', ')
-            machine['Prize'] = (
-                int(coords[0].split('X=')[1]), 
-                int(coords[1].split('Y=')[1])
-            ) 
-            D.append(machine)
-            machine = {}
+    data = f.read().split("\n\n")
 
-p1 = D
+def solve(puzzle:str) -> tuple[int]: 
+    a1, a2 = tuple(map(int, re.findall(r"Button A: X\+(\d+), Y\+(\d+)", puzzle)[0]))
+    b1, b2 = tuple(map(int, re.findall(r"Button B: X\+(\d+), Y\+(\d+)", puzzle)[0]))
+    c1, c2 = tuple(map(int, re.findall(r"Prize: X=(\d+), Y=(\d+)", puzzle)[0]))
+
+    # cramer's rule 
+    x = ((c1 * b2) - (b1 * c2)) / ((a1 * b2) - (b1 * a2))
+    y = ((a1 * c2) - (c1 * a2)) / ((a1 * b2) - (b1 * a2))
+
+    if int(x) == x and int(y) == y:
+        return tuple(map(int, (x, y)))
+    return (0, 0)
+
+
+p1 = 0 
+for puzzle in data: 
+    a, b = solve(puzzle)
+    p1 += a * 3 + b # token cost 
 print(f"P1: {p1}")
