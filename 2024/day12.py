@@ -44,4 +44,75 @@ def calc_sum_area_perimeter(grid):
     return total
 
 p1 = calc_sum_area_perimeter(G)
-print(f"Total sum of area * perimeter: {p1}")
+print(f"Part 1: {p1}")
+
+def get_corners(grid, i, j):
+    m, n = len(grid), len(grid[0])
+    
+    def is_same(x, y, plant):
+        return (
+            0 <= x < m and 
+            0 <= y < n and 
+            grid[x][y] == plant
+        )
+    
+    plant = grid[i][j]
+    
+    NW = is_same(i-1, j-1, plant)
+    N = is_same(i-1, j, plant)
+    NE = is_same(i-1, j+1, plant)
+    W = is_same(i, j-1, plant)
+    E = is_same(i, j+1, plant)
+    SW = is_same(i+1, j-1, plant)
+    S = is_same(i+1, j, plant)
+    SE = is_same(i+1, j+1, plant)
+    
+    return sum([
+        N and W and not NW,  # Northwest corner
+        N and E and not NE,  # Northeast corner
+        S and W and not SW,  # Southwest corner
+        S and E and not SE,  # Southeast corner
+        not (N or W),         # Top-left edge
+        not (N or E),         # Top-right edge
+        not (S or W),         # Bottom-left edge
+        not (S or E)          # Bottom-right edge
+    ])
+
+def find_region(grid, i, j):
+    m, n = len(grid), len(grid[0])
+    plant = grid[i][j]
+    region = set()
+    queue = {(i, j)}
+    
+    while queue:
+        x, y = queue.pop()
+        region.add((x, y))
+        
+        for nx, ny in [(x-1, y), (x, y-1), (x+1, y), (x, y+1)]:
+            if (0 <= nx < m and 
+                0 <= ny < n and 
+                grid[nx][ny] == plant and
+                (nx, ny) not in region and
+                (nx, ny) not in queue):
+                queue.add((nx, ny))
+
+    corners = sum(get_corners(grid, x, y) for x, y in region)
+    
+    return region, corners * len(region)
+
+def calc_sum_area_perimeter(grid):
+    m, n = len(grid), len(grid[0])
+    total = 0
+    visited = set()
+    
+    for i in range(m):
+        for j in range(n):
+            if (i, j) not in visited:
+                region, cost = find_region(grid, i, j)
+                total += cost
+                visited |= region
+    
+    return total
+
+p2 = calc_sum_area_perimeter(G)
+print(f'Part 2: {p2}')
