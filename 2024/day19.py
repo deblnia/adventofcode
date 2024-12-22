@@ -31,3 +31,31 @@ def count_achievable(patterns, targets):
 
 p1 = count_achievable(patterns_given, targets)
 print(f"P1: {p1}")
+
+def backtrack_dp(patterns, target, start_idx): 
+    n = len(target)
+    # dp[i] represents number of ways to create target[i:]
+    dp = [0] * (n + 1)
+    dp[n] = 1  # empty string can be made in 1 way
+    
+    # work backwards from end of string
+    for i in range(n-1, -1, -1):
+        for pattern in patterns:
+            if (i + len(pattern) <= n):  # check if pattern would fit
+                if target[i:i + len(pattern)] == pattern:  # check if pattern matches
+                    dp[i] += dp[i + len(pattern)]
+    
+    return dp[0]
+ 
+
+def sum_total_achievable(patterns, targets): 
+    total = 0
+
+    for target in targets: 
+        ways = backtrack_dp(patterns, target, 0)
+        total += ways 
+    return total 
+
+
+p2 = sum_total_achievable(patterns_given, targets)
+print(f"P2: {p2}")
