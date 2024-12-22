@@ -1,5 +1,4 @@
-from collections import deque, defaultdict
-from heapq import heappop, heappush
+from collections import deque
 
 with open("inputs/day20.txt", "r") as f: 
     grid = f.read().splitlines()
