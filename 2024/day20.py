@@ -1,4 +1,5 @@
-from collections import deque
+from collections import deque, defaultdict
+from heapq import heappop, heappush
 
 with open("inputs/day20.txt", "r") as f: 
     grid = f.read().splitlines()
@@ -73,3 +74,56 @@ def find_wall_cheats(grid):
 savings = find_wall_cheats(grid)
 p1 = sum(count for time_saved, count in savings.items() if time_saved > 100)
 print(f"P1: {p1}")
+
+def find_shortcuts(grid, max_cheat=20, min_savings=100):
+    times = [[-1] * NCOLS for _ in range(NROWS)]
+    
+    # getting start and end 
+    start = None
+    for i, row in enumerate(grid):
+        for j, val in enumerate(row):
+            if val == 'S':
+                start = (i, j)
+                break
+        if start:
+            break
+    
+    # BFS
+    queue = deque([start])
+    times[start[0]][start[1]] = 0
+    
+    while queue:
+        i, j = queue.popleft()
+        current_time = times[i][j]
+
+        for di, dj in [(0,1), (1,0), (0,-1), (-1,0)]:
+            ni, nj = i + di, j + dj
+            if (0 <= ni < NROWS and 0 <= nj < NCOLS and 
+                (grid[ni][nj] == '.' or grid[ni][nj] == 'E') and
+                (times[ni][nj] == -1 or current_time + 1 < times[ni][nj])):
+                times[ni][nj] = current_time + 1
+                if grid[ni][nj] == '.':
+                    queue.append((ni, nj))
+    
+    # diamond pattern shortcut 
+    shortcuts = set()
+    
+    for i in range(1, NROWS-1):
+        for j in range(1, NCOLS-1):
+            if grid[i][j] != '#':
+                for radius in range(max_cheat + 1):
+                    for di in range(radius + 1):
+                        dj = radius - di
+                        for si, sj in [(1,1), (1,-1), (-1,1), (-1,-1)]:
+                            ni, nj = i + di*si, j + dj*sj
+                            if (0 <= ni < NROWS and 0 <= nj < NCOLS and
+                                grid[ni][nj] in ('.', 'S') and
+                                times[ni][nj] != -1 and  # ensure point is reachable
+                                times[i][j] != -1 and    # ensure current point is reachable
+                                times[i][j] - times[ni][nj] >= min_savings + radius): # only check if > min_savings 
+                                shortcuts.add((i, j, ni, nj))
+    
+    return len(shortcuts)
+
+p2 = find_shortcuts(grid)
+print(f"P2: {p2}")
